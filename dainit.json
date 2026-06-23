@@ -1,0 +1,41 @@
+{
+  "name": "dainit.default",
+  "version": 0.01,
+  "steps": [
+    {
+      "type": "config",
+      "list": [
+        {
+          "home": "/home/daos",
+          "dagatewayurl": "https://dage.party/dagatewayurldemo"
+        }
+      ]
+    },
+    {
+      "type": "exec",
+      "list": [
+        {
+          "cmd": "mkdir",
+          "args": ["/workspaces"]
+        },
+        {
+          "cmd": "mkdir",
+          "args": ["-p", "/mnt/p1"]
+        },
+        {
+          "cmd": "chmod",
+          "args": ["1000:1000", "/workspaces"]
+        }
+      ]
+    },
+    {
+      "type": "exec",
+      "list": [
+        {
+          "cmd": "cp",
+          "args": ["/a", "/b"]
+        }
+      ]
+    }
+  ]
+}
