@@ -1,11 +1,13 @@
 {
   "name": "dainit.default",
+  "version": 0.01,
   "steps": [
     {
       "type": "config",
       "list": [
         {
-          "home": "/home/daos"
+          "home": "/home/daos",
+          "dagatewayurl": "https://dage.party/dagatewayurldemo"
         }
       ]
     },
