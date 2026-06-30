@@ -59,6 +59,13 @@
             ]
         },
         {
+            "type": "exec",
+            "list": [
+                { "if": { "folder-exists": "/home/daos/.runCommand" } },
+                { "cmd": "chmod", "args": ["-R", "+x", "/home/daos/.runCommand/"] }
+            ]
+        },
+        {
             "type": "file",
             "list": [
                 {
