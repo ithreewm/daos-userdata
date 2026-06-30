@@ -1,41 +1,138 @@
 {
-  "name": "dainit.default",
-  "version": 0.01,
-  "steps": [
-    {
-      "type": "config",
-      "list": [
+    "name": "dastart",
+    "version": 1.0,
+    "steps": [
         {
-          "home": "/home/daos",
-          "dagatewayurl": "https://gateway1.tresss.eu.org/api"
-        }
-      ]
-    },
-    {
-      "type": "exec",
-      "list": [
-        {
-          "cmd": "mkdir",
-          "args": ["/workspaces"]
+            "type": "exec",
+            "list": [
+                { "cmd": "mkdir", "args": ["-p", "/workspaces"] },
+                { "cmd": "mkdir", "args": ["-p", "/mnt/p1"] }
+            ]
         },
         {
-          "cmd": "mkdir",
-          "args": ["-p", "/mnt/p1"]
+            "type": "file",
+            "list": [
+                {
+                    "path": "/home/da/.gitconfig",
+                    "content": "[user]\n    name = daos\n    email = daos@dage.party\n",
+                    "mode": "644",
+                    "if-exists": "rewrite"
+                }
+            ]
         },
         {
-          "cmd": "chmod",
-          "args": ["1000:1000", "/workspaces"]
-        }
-      ]
-    },
-    {
-      "type": "exec",
-      "list": [
+            "type": "exec",
+            "list": [
+                { "if": { "folder-exists": "/home/daos" } },
+                { "cmd": "mkdir", "args": ["-p", "/home/daos/.runCommand"] },
+                { "cmd": "mkdir", "args": ["-p", "/home/daos/.config/ffprofile"] },
+                { "cmd": "mkdir", "args": ["-p", "/home/daos/.software"] },
+                { "cmd": "mkdir", "args": ["-p", "/home/daos/.udff"] }
+            ]
+        },
         {
-          "cmd": "cp",
-          "args": ["/a", "/b"]
+            "type": "exec",
+            "list": [
+                { "if": { "folder-exists": "/tmp/daos/remoteconfig/ffprofile" } },
+                { "if": { "folder-exists": "/home/daos/.config/ffprofile" } },
+                { "cmd": "cp", "args": ["-a", "/tmp/daos/remoteconfig/ffprofile/.", "/home/daos/.config/ffprofile/"] }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "if": { "folder-exists": "/tmp/daos/remoteconfig/runCommand" } },
+                { "if": { "folder-exists": "/home/daos/.runCommand" } },
+                { "cmd": "cp", "args": ["-a", "/tmp/daos/remoteconfig/runCommand/.", "/home/daos/.runCommand/"] }
+            ]
+        },
+        {
+            "type": "file",
+            "list": [
+                { "if": { "folder-exists": "/home/daos/.runCommand" } },
+                {
+                    "path": "/home/daos/.runCommand/.bashrc",
+                    "content": "export PATH=$PATH:/home/daos/.runCommand\ncd /home/daos\n",
+                    "mode": "644",
+                    "if-exists": "rewrite"
+                }
+            ]
+        },
+        {
+            "type": "file",
+            "list": [
+                {
+                    "if": { "file-not-contain": { "path": "/home/da/.bashrc", "pattern": "source /home/daos/.runCommand/.bashrc" } },
+                    "path": "/home/da/.bashrc",
+                    "content": "source /home/daos/.runCommand/.bashrc\n",
+                    "if-exists": "append"
+                }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "cmd": "mkdir", "args": ["-p", "/home/daos/.software"] },
+                { "cmd": "mkdir", "args": ["-p", "/home/daos/.udff"] },
+                { "cmd": "chown", "args": ["-R", "1000:1000", "/home/daos/"] },
+                { "cmd": "chown", "args": ["-R", "1000:1000", "/home/da/"] }
+            ]
+        },
+        {
+            "type": "file",
+            "list": [
+                {
+                    "path": "/etc/asound.conf",
+                    "content": "defaults.pcm.card 0\ndefaults.ctl.card 0\n\npcm.!default {\n    type hw\n    card 0\n}\n\nctl.!default {\n    type hw\n    card 0\n}\n",
+                    "mode": "644",
+                    "if-exists": "rewrite"
+                }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "cmd": "bash", "args": ["-c", "alsa force-reload 2>/dev/null; amixer set Master 80% unmute 2>/dev/null; amixer set PCM 85% unmute 2>/dev/null; amixer set Speaker 85% unmute 2>/dev/null; amixer set Headphone 85% unmute 2>/dev/null"] }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "cmd": "curl", "args": ["-fL", "-o", "/tmp/wqy-microhei.ttc", "https://www.dropbox.com/scl/fi/sxzylmp8obyaklyz492tk/wqy-microhei.ttc?rlkey=kd40a6lfbi8lbzxcicoeyfyf0&st=hxonagzy&dl=1"] },
+                {"if": { "file-exists": "/tmp/wqy-microhei.ttc" }},
+                { "cmd": "mkdir", "args": ["-p", "/usr/share/fonts/truetype/wqy"] },
+                { "cmd": "mv", "args": ["/tmp/wqy-microhei.ttc", "/usr/share/fonts/truetype/wqy/"] }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "if": { "file-not-exists": "/home/daos/.software/firefox/firefox" } },
+                { "cmd": "rm", "args": ["-rf", "/home/daos/.software/firefox", "/tmp/firefox"] },
+                { "cmd": "mkdir", "args": ["-p", "/home/daos/.software/firefox", "/tmp/firefox"] },
+                { "cmd": "curl", "args": ["-fL", "-o", "/tmp/firefox/firefox128.tar.xz", "https://www.dropbox.com/scl/fi/mwic29zlagvmlgzxjlgt0/firefox128.tar.xz?rlkey=hbcmrcmera8474kj2zu8pdzbg&st=gtwrak6w&dl=1"] },
+                {"if": { "file-exists": "/tmp/firefox/firefox128.tar.xz" }},
+                { "cmd": "tar", "args": ["-xJf", "/tmp/firefox/firefox128.tar.xz", "-C", "/home/daos/.software/firefox", "--strip-components=1"] }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "cmd": "rm", "args": ["-rf", "/tmp/firefox"] }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "cmd": "apt", "args": ["install", "-y", "git", "xclip"] }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "cmd": "chown", "args": ["-R", "1000:1000", "/home/daos/"] },
+                { "cmd": "chown", "args": ["-R", "1000:1000", "/home/da/"] }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }
