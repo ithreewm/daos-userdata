@@ -1,5 +1,17 @@
 {
     "hello": [
-        { "cmd": "echo", "args": ["hello world"] }
+        {"message-success": "Hello there!"}
+    ],
+    "installfirefox115": [
+        { "if": { "file-not-exists": "${software-home}/firefox115/firefox" }, "message-failed": "Firefox 115 is already installed." },
+        { "cmd": "mkdir", "args": ["-p", "/tmp/firefox115-install"] },
+        { "cmd": "curl", "args": ["-fL", "-o", "/tmp/firefox115-install/firefox115.tar.xz", "https://www.dropbox.com/scl/fi/f0sph4i8p2a3iemrwgv93/firefox115.tar.xz?rlkey=aek7m9u9w2s67hsmskaa7u7d9&st=x3zwk8ab&dl=1"], "message-failed": "Failed to download Firefox.", "message-success": "Firefox downloaded successfully." },
+        { "if": { "file-exists": "/tmp/firefox115-install/firefox115.tar.xz" }, "message-failed": "Download verification failed." },
+        { "cmd": "rm", "args": ["-rf", "${software-home}/firefox115"] },
+        { "cmd": "mkdir", "args": ["-p", "${software-home}/firefox115"] },
+        { "cmd": "tar", "args": ["-xJf", "/tmp/firefox115-install/firefox115.tar.xz", "-C", "${software-home}/firefox115", "--strip-components=1"], "message-failed": "Failed to extract Firefox.", "message-success": "Firefox extracted successfully." },
+        { "cmd": "rm", "args": ["-rf", "/tmp/firefox115-install"] },
+        {"clear-message": true},
+        {"message-success": "Firefox 115 installed successfully: ${software-home}/firefox115."}
     ]
 }
