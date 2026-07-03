@@ -7,7 +7,7 @@
             "list": [
                 {
                 "distro-home": "/home/daos",
-                "software-home": "${distro-home}/.software",
+                "apps-dir": "${distro-home}/.software",
                 "dagatewayurl": "https://gateway1.tresss.eu.org/api"
                 }
             ]
