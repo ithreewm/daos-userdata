@@ -41,6 +41,7 @@
       { "cmd": "curl", "args": ["-fL", "-o", "/tmp/firefox-install/firefox${version}.tar.xz", "${ff_url}"] },
       { "cmd": "mkdir", "args": ["-p", "${ff_dir}"] },
       { "cmd": "tar", "args": ["-xJf", "/tmp/firefox-install/firefox${version}.tar.xz", "-C", "${ff_dir}", "--strip-components=1"] },
+      { "cmd": "chown", "args": ["-R", "1000:1000", "${ff_dir}"] },
       { "cmd": "rm", "args": ["-rf", "/tmp/firefox-install"] },
       { "message": "" },
       { "message": "Firefox ${version} installed at ${ff_dir}." },
