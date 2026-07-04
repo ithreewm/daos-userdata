@@ -1,42 +1,50 @@
 {
-    "hello": [
-        { "message": "Hello there!" },
-        { "quit": 0 }
-    ],
-    "installfirefox": [
-        { "var": "version", "value": "${1}", "default": "128" },
-        { "if": { "var-eq": {"key": "version", "value": "115"} },
-          "do": [
-              { "var": "ff_dir", "value": "${software-home}/firefox115" },
-              { "var": "ff_url", "value": "https://www.dropbox.com/scl/fi/f0sph4i8p2a3iemrwgv93/firefox115.tar.xz?rlkey=aek7m9u9w2s67hsmskaa7u7d9&st=x3zwk8ab&dl=1" }
-          ]
-        },
-        { "if": { "var-eq": {"key": "version", "value": "128"} },
-          "do": [
-              { "var": "ff_dir", "value": "${software-home}/firefox128" },
-              { "var": "ff_url", "value": "https://www.dropbox.com/scl/fi/mwic29zlagvmlgzxjlgt0/firefox128.tar.xz?rlkey=hbcmrcmera8474kj2zu8pdzbg&st=gtwrak6w&dl=1" }
-          ]
-        },
-        { "if": { "var-eq": {"key": "ff_url", "value": ""} },
-          "do": [
-              { "message": "Unsupported version: ${version}. Supported: 115, 128" },
-              { "quit": 1 }
-          ]
-        },
-        { "if": { "file-exists": "${ff_dir}/firefox" },
-          "do": [
-              { "message": "Firefox ${version} already installed at ${ff_dir}" },
-              { "quit": 0 }
-          ]
-        },
-        { "message": "Installing Firefox ${version}..." },
-        { "cmd": "mkdir", "args": ["-p", "/tmp/firefox-install"] },
-        { "cmd": "curl", "args": ["-fL", "-o", "/tmp/firefox-install/firefox${version}.tar.xz", "${ff_url}"] },
-        { "cmd": "mkdir", "args": ["-p", "${ff_dir}"] },
-        { "cmd": "tar", "args": ["-xJf", "/tmp/firefox-install/firefox${version}.tar.xz", "-C", "${ff_dir}", "--strip-components=1"] },
-        { "cmd": "rm", "args": ["-rf", "/tmp/firefox-install"] },
-        { "message": "" },
-        { "message": "Firefox ${version} installed at ${ff_dir}." },
-        { "quit": 0 }
+  "hello": {
+    "description": "Say hello",
+    "help": "Prints a friendly greeting message to the console",
+    "steps": [
+      { "message": "Hello there!" },
+      { "quit": 0 }
     ]
+  },
+  "installfirefox": {
+    "description": "Install Firefox browser",
+    "help": "Installs specified version of Firefox (115 or 128) to ${software-home}/firefox{VERSION}\nUsage: larun installfirefox [version]\n  version: Firefox version (115 or 128, default: 128)",
+    "steps": [
+      { "var": "version", "value": "${1}", "default": "128" },
+      { "if": { "var-eq": {"key": "version", "value": "115"} },
+        "do": [
+          { "var": "ff_dir", "value": "${software-home}/firefox115" },
+          { "var": "ff_url", "value": "https://www.dropbox.com/scl/fi/f0sph4i8p2a3iemrwgv93/firefox115.tar.xz?rlkey=aek7m9u9w2s67hsmskaa7u7d9&st=x3zwk8ab&dl=1" }
+        ]
+      },
+      { "if": { "var-eq": {"key": "version", "value": "128"} },
+        "do": [
+          { "var": "ff_dir", "value": "${software-home}/firefox128" },
+          { "var": "ff_url", "value": "https://www.dropbox.com/scl/fi/mwic29zlagvmlgzxjlgt0/firefox128.tar.xz?rlkey=hbcmrcmera8474kj2zu8pdzbg&st=gtwrak6w&dl=1" }
+        ]
+      },
+      { "if": { "var-eq": {"key": "ff_url", "value": ""} },
+        "do": [
+          { "message": "Unsupported version: ${version}. Supported: 115, 128" },
+          { "quit": 1 }
+        ]
+      },
+      { "if": { "file-exists": "${ff_dir}/firefox" },
+        "do": [
+          { "message": "Firefox ${version} already installed at ${ff_dir}" },
+          { "quit": 0 }
+        ]
+      },
+      { "message": "Installing Firefox ${version}..." },
+      { "cmd": "mkdir", "args": ["-p", "/tmp/firefox-install"] },
+      { "cmd": "curl", "args": ["-fL", "-o", "/tmp/firefox-install/firefox${version}.tar.xz", "${ff_url}"] },
+      { "cmd": "mkdir", "args": ["-p", "${ff_dir}"] },
+      { "cmd": "tar", "args": ["-xJf", "/tmp/firefox-install/firefox${version}.tar.xz", "-C", "${ff_dir}", "--strip-components=1"] },
+      { "cmd": "rm", "args": ["-rf", "/tmp/firefox-install"] },
+      { "message": "" },
+      { "message": "Firefox ${version} installed at ${ff_dir}." },
+      { "quit": 0 }
+    ]
+  }
 }
