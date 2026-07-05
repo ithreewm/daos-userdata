@@ -1,17 +1,51 @@
 {
-    "hello": [
-        {"message-success": "Hello there!"}
-    ],
-    "installfirefox115": [
-        { "if": { "file-not-exists": "${apps-dir}/firefox115/firefox" }, "message-failed": "Firefox 115 is already installed." },
-        { "cmd": "mkdir", "args": ["-p", "/tmp/firefox115-install"] },
-        { "cmd": "curl", "args": ["-fL", "-o", "/tmp/firefox115-install/firefox115.tar.xz", "https://www.dropbox.com/scl/fi/f0sph4i8p2a3iemrwgv93/firefox115.tar.xz?rlkey=aek7m9u9w2s67hsmskaa7u7d9&st=x3zwk8ab&dl=1"], "message-failed": "Failed to download Firefox.", "message-success": "Firefox downloaded successfully." },
-        { "if": { "file-exists": "/tmp/firefox115-install/firefox115.tar.xz" }, "message-failed": "Download verification failed." },
-        { "cmd": "rm", "args": ["-rf", "${apps-dir}/firefox115"] },
-        { "cmd": "mkdir", "args": ["-p", "${apps-dir}/firefox115"] },
-        { "cmd": "tar", "args": ["-xJf", "/tmp/firefox115-install/firefox115.tar.xz", "-C", "${apps-dir}/firefox115", "--strip-components=1"], "message-failed": "Failed to extract Firefox.", "message-success": "Firefox extracted successfully." },
-        { "cmd": "rm", "args": ["-rf", "/tmp/firefox115-install"] },
-        {"clear-message": true},
-        {"message-success": "Firefox 115 installed successfully: ${apps-dir}/firefox115."}
+  "hello": {
+    "description": "Say hello",
+    "help": "Prints a friendly greeting message to the console",
+    "steps": [
+      { "message": "Hello there!" },
+      { "quit": 0 }
     ]
+  },
+  "installfirefox": {
+    "description": "Install Firefox browser",
+    "help": "Installs specified version of Firefox (115 or 128) to ${software-home}/firefox{VERSION}\nUsage: larun installfirefox [version]\n  version: Firefox version (115 or 128, default: 128)",
+    "steps": [
+      { "var": "version", "value": "${1}", "default": "128" },
+      { "if": { "var-eq": {"key": "version", "value": "115"} },
+        "do": [
+          { "var": "ff_dir", "value": "${software-home}/firefox115" },
+          { "var": "ff_url", "value": "https://www.dropbox.com/scl/fi/f0sph4i8p2a3iemrwgv93/firefox115.tar.xz?rlkey=aek7m9u9w2s67hsmskaa7u7d9&st=x3zwk8ab&dl=1" }
+        ]
+      },
+      { "if": { "var-eq": {"key": "version", "value": "128"} },
+        "do": [
+          { "var": "ff_dir", "value": "${software-home}/firefox128" },
+          { "var": "ff_url", "value": "https://www.dropbox.com/scl/fi/mwic29zlagvmlgzxjlgt0/firefox128.tar.xz?rlkey=hbcmrcmera8474kj2zu8pdzbg&st=gtwrak6w&dl=1" }
+        ]
+      },
+      { "if": { "var-eq": {"key": "ff_url", "value": ""} },
+        "do": [
+          { "message": "Unsupported version: ${version}. Supported: 115, 128" },
+          { "quit": 1 }
+        ]
+      },
+      { "if": { "file-exists": "${ff_dir}/firefox" },
+        "do": [
+          { "message": "Firefox ${version} already installed at ${ff_dir}" },
+          { "quit": 0 }
+        ]
+      },
+      { "message": "Installing Firefox ${version}..." },
+      { "cmd": "mkdir", "args": ["-p", "/tmp/firefox-install"] },
+      { "cmd": "curl", "args": ["-fL", "-o", "/tmp/firefox-install/firefox${version}.tar.xz", "${ff_url}"] },
+      { "cmd": "mkdir", "args": ["-p", "${ff_dir}"] },
+      { "cmd": "tar", "args": ["-xJf", "/tmp/firefox-install/firefox${version}.tar.xz", "-C", "${ff_dir}", "--strip-components=1"] },
+      { "cmd": "chown", "args": ["-R", "1000:1000", "${ff_dir}"] },
+      { "cmd": "rm", "args": ["-rf", "/tmp/firefox-install"] },
+      { "message": "" },
+      { "message": "Firefox ${version} installed at ${ff_dir}." },
+      { "quit": 0 }
+    ]
+  }
 }
