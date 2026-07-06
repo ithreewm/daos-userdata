@@ -7,6 +7,27 @@
       { "quit": 0 }
     ]
   },
+  "sync-hello": {
+    "description": "Clone/pull a public test repo",
+    "help": "Usage: larun sync-hello\nClones or pulls https://github.com/octocat/Hello-World.git to /tmp/hello-world",
+    "steps": [
+      { "var": "repo_url", "value": "https://github.com/octocat/Hello-World.git" },
+      { "var": "target", "value": "/tmp/hello-world" },
+      { "var": "git_dir", "value": "${target}/.git" },
+      { "message": "Syncing ${repo_url} to ${target}..." },
+      { "cmd": "lagit", "args": ["pull", "${repo_url}", "${target}"] },
+      { "if": { "folder-exists": "${git_dir}" },
+        "do": [
+          { "message": "Success: Hello-World repo synced to ${target}" },
+          { "quit": 0 }
+        ],
+        "else": [
+          { "message": "Failed: ${git_dir} not found after sync" },
+          { "quit": 1 }
+        ]
+      }
+    ]
+  },
   "installfirefox": {
     "description": "Install Firefox browser",
     "help": "Installs specified version of Firefox (115 or 128) to ${software-home}/firefox{VERSION}\nUsage: larun installfirefox [version]\n  version: Firefox version (115 or 128, default: 128)",
