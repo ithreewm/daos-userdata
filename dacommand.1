@@ -57,6 +57,28 @@
       { "quit": 0 }
     ]
   },
+  "email1": {
+    "description": "Query email table from rackhoneylist, ordered by id asc",
+    "help": "Usage: larun email1 [minid]\nQueries the email table with optional minimum ID filter, ordered by id ascending, limit 5.",
+    "steps": [
+      { "var": "rack", "value": "rackhoneylist" },
+      { "var": "minid", "value": "${1}", "default": "" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "cmd": "carack", "args": ["${rack}", "render", "email", "--min-id", "${minid}", "--orderby", "id", "--order", "asc", "--limit", "5"] },
+      { "quit": 0 }
+    ]
+  },
+  "email2": {
+    "description": "Query email table from rackhoneylist, ordered by id desc",
+    "help": "Usage: larun email2 [minid]\nQueries the email table with optional minimum ID filter, ordered by id descending, limit 5.",
+    "steps": [
+      { "var": "rack", "value": "rackhoneylist" },
+      { "var": "minid", "value": "${1}", "default": "" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "cmd": "carack", "args": ["${rack}", "render", "email", "--min-id", "${minid}", "--orderby", "id", "--order", "desc", "--limit", "5"] },
+      { "quit": 0 }
+    ]
+  },
   "sync-hello": {
     "description": "Clone/pull a public test repo",
     "help": "Usage: larun sync-hello\nClones or pulls https://github.com/octocat/Hello-World.git to /tmp/hello-world",
