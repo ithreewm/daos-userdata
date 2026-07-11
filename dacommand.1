@@ -85,15 +85,15 @@
     "steps": [
       { "var": "rack", "value": "rackhoneylist" },
       { "var": "c1val", "value": "${1}" },
-      { "if": { "var-not-defined": "c1val" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "if": { "var-defined": "c1val" },
         "do": [
-          { "message": "Error: c1 value is required. Usage: larun email3 <c1_value>" },
-          { "quit": 1 }
+          { "cmd": "carack", "args": ["${rack}", "render", "email", "--filter", "c1=${c1val}", "--orderby", "id", "--order", "desc", "--limit", "5"] },
+          { "quit": 0 }
         ]
       },
-      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
-      { "cmd": "carack", "args": ["${rack}", "render", "email", "--filter", "c1=${c1val}", "--orderby", "id", "--order", "desc", "--limit", "5"] },
-      { "quit": 0 }
+      { "message": "Error: c1 value is required. Usage: larun email3 <c1_value>" },
+      { "quit": 1 }
     ]
   },
   "sync-hello": {
