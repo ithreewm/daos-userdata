@@ -79,6 +79,23 @@
       { "quit": 0 }
     ]
   },
+  "email3": {
+    "description": "Query email table filtered by c1 exact match",
+    "help": "Usage: larun email3 <c1_value>\nQueries email table where c1 matches exactly, ordered by id desc, limit 5.",
+    "steps": [
+      { "var": "rack", "value": "rackhoneylist" },
+      { "var": "c1val", "value": "${1}" },
+      { "if": { "var-not-defined": "c1val" },
+        "do": [
+          { "message": "Error: c1 value is required. Usage: larun email3 <c1_value>" },
+          { "quit": 1 }
+        ]
+      },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "cmd": "carack", "args": ["${rack}", "render", "email", "--filter", "c1=${c1val}", "--orderby", "id", "--order", "desc", "--limit", "5"] },
+      { "quit": 0 }
+    ]
+  },
   "sync-hello": {
     "description": "Clone/pull a public test repo",
     "help": "Usage: larun sync-hello\nClones or pulls https://github.com/octocat/Hello-World.git to /tmp/hello-world",
