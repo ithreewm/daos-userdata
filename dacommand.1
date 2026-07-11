@@ -7,13 +7,23 @@
       { "quit": 0 }
     ]
   },
-  "racktest1": {
+  "racklist1": {
     "description": "List all tables in rack001 cloud database",
-    "help": "Usage: larun racktest1\nLists all tables in the rack001 cloud database.",
+    "help": "Usage: larun racklist1\nLists all tables in the rack001 cloud database.",
     "steps": [
       { "var": "rack", "value": "rack001" },
       { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
       { "cmd": "carack", "args": ["${rack}", "list-tables"] },
+      { "quit": 0 }
+    ]
+  },
+  "racktest1": {
+    "description": "Query all rows from test1 table in rack001",
+    "help": "Usage: larun racktest1\nQueries all data from the test1 table in rack001 cloud database.",
+    "steps": [
+      { "var": "rack", "value": "rack001" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "cmd": "carack", "args": ["${rack}", "get", "test1"] },
       { "quit": 0 }
     ]
   },
