@@ -27,6 +27,36 @@
       { "quit": 0 }
     ]
   },
+  "honeylist1": {
+    "description": "List all tables in rackhoneylist cloud database",
+    "help": "Usage: larun honeylist1\nLists all tables in the rackhoneylist cloud database.",
+    "steps": [
+      { "var": "rack", "value": "rackhoneylist" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "cmd": "carack", "args": ["${rack}", "list-tables"] },
+      { "quit": 0 }
+    ]
+  },
+  "honeyquery1": {
+    "description": "Query all rows from project table in rackhoneylist",
+    "help": "Usage: larun honeyquery1\nQueries all data from the project table in rackhoneylist.",
+    "steps": [
+      { "var": "rack", "value": "rackhoneylist" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "cmd": "carack", "args": ["${rack}", "get", "project"] },
+      { "quit": 0 }
+    ]
+  },
+  "honeyrender1": {
+    "description": "Render all rows from project table in rackhoneylist",
+    "help": "Usage: larun honeyrender1\nRenders all data from the project table in rackhoneylist.",
+    "steps": [
+      { "var": "rack", "value": "rackhoneylist" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "cmd": "carack", "args": ["${rack}", "render", "project"] },
+      { "quit": 0 }
+    ]
+  },
   "sync-hello": {
     "description": "Clone/pull a public test repo",
     "help": "Usage: larun sync-hello\nClones or pulls https://github.com/octocat/Hello-World.git to /tmp/hello-world",
