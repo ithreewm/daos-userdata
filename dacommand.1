@@ -12,7 +12,7 @@
     "help": "Usage: larun racktest1\nLists all tables in the rack001 cloud database.",
     "steps": [
       { "var": "rack", "value": "rack001" },
-      { "cmd": "carackcreate", "args": ["${rack}"] },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
       { "cmd": "carack", "args": ["${rack}", "list-tables"] },
       { "quit": 0 }
     ]
