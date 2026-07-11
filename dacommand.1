@@ -44,21 +44,22 @@
       { "quit": 1 }
     ]
   },
-  "rackc1": {
-    "description": "Fetch c1 value from test1 table by ID in rack001",
-    "help": "Usage: larun rackc1 <id>\nFetches the c1 field from a row in test1 by its ID.",
+  "rackvalue1": {
+    "description": "Fetch a field value from test1 table by ID in rack001",
+    "help": "Usage: larun rackc1 <id> [field]\nFetches a field (default: c1) from a row in test1 by its ID.",
     "steps": [
       { "var": "rack", "value": "rack001" },
       { "var": "row_id", "value": "${1}", "default": "" },
+      { "var": "field_name", "value": "${2}", "default": "c1" },
       { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
       { "if": { "var-defined": "row_id" },
         "do": [
-          { "var": "c1_val", "rack-get": { "rack": "${rack}", "table": "test1", "filter": "id=${row_id}", "field": "c1", "limit": 1 } },
-          { "message": "${c1_val}" },
+          { "var": "val", "rack-get": { "rack": "${rack}", "table": "test1", "filter": "id=${row_id}", "field": "${field_name}", "limit": 1 } },
+          { "message": "${val}" },
           { "quit": 0 }
         ]
       },
-      { "message": "Error: id argument is required. Usage: larun rackc1 <id>" },
+      { "message": "Error: id argument is required. Usage: larun rackc1 <id> [field]" },
       { "quit": 1 }
     ]
   },
