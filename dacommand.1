@@ -27,6 +27,23 @@
       { "quit": 0 }
     ]
   },
+  "rackid1": {
+    "description": "Query a row from test1 table by ID in rack001",
+    "help": "Usage: larun rackid1 <id>\nQueries a row from the test1 table in rack001 by its ID.",
+    "steps": [
+      { "var": "rack", "value": "rack001" },
+      { "var": "row_id", "value": "${1}", "default": "" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "if": { "var-defined": "row_id" },
+        "do": [
+          { "cmd": "carack", "args": ["${rack}", "get", "test1", "--filter", "id=${row_id}", "--limit", "1"] },
+          { "quit": 0 }
+        ]
+      },
+      { "message": "Error: id argument is required. Usage: larun rackid1 <id>" },
+      { "quit": 1 }
+    ]
+  },
   "honeylist1": {
     "description": "List all tables in rackhoneylist cloud database",
     "help": "Usage: larun honeylist1\nLists all tables in the rackhoneylist cloud database.",
