@@ -84,7 +84,7 @@
     "help": "Usage: larun email3 <c1_value>\nQueries email table where c1 matches exactly, ordered by id desc, limit 5.",
     "steps": [
       { "var": "rack", "value": "rackhoneylist" },
-      { "var": "c1val", "value": "${1}" },
+      { "var": "c1val", "value": "${1}", "default": "" },
       { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
       { "if": { "var-defined": "c1val" },
         "do": [
