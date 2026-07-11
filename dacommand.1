@@ -44,6 +44,24 @@
       { "quit": 1 }
     ]
   },
+  "rackc1": {
+    "description": "Fetch c1 value from test1 table by ID in rack001",
+    "help": "Usage: larun rackc1 <id>\nFetches the c1 field from a row in test1 by its ID.",
+    "steps": [
+      { "var": "rack", "value": "rack001" },
+      { "var": "row_id", "value": "${1}", "default": "" },
+      { "cmd": "carackcreate", "args": ["${rack}"], "silent": true },
+      { "if": { "var-defined": "row_id" },
+        "do": [
+          { "var": "c1_val", "rack-get": { "rack": "${rack}", "table": "test1", "filter": "id=${row_id}", "field": "c1", "limit": 1 } },
+          { "message": "${c1_val}" },
+          { "quit": 0 }
+        ]
+      },
+      { "message": "Error: id argument is required. Usage: larun rackc1 <id>" },
+      { "quit": 1 }
+    ]
+  },
   "honeylist1": {
     "description": "List all tables in rackhoneylist cloud database",
     "help": "Usage: larun honeylist1\nLists all tables in the rackhoneylist cloud database.",
