@@ -7,6 +7,16 @@
       { "quit": 0 }
     ]
   },
+  "racktest1": {
+    "description": "List all tables in rack001 cloud database",
+    "help": "Usage: larun racktest1\nLists all tables in the rack001 cloud database.",
+    "steps": [
+      { "var": "rack", "value": "rack001" },
+      { "cmd": "carackcreate", "args": ["${rack}"] },
+      { "cmd": "carack", "args": ["${rack}", "list-tables"] },
+      { "quit": 0 }
+    ]
+  },
   "sync-hello": {
     "description": "Clone/pull a public test repo",
     "help": "Usage: larun sync-hello\nClones or pulls https://github.com/octocat/Hello-World.git to /tmp/hello-world",
