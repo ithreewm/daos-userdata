@@ -18,8 +18,7 @@
             "type": "exec",
             "list": [
                 { "cmd": "mkdir", "args": ["-p", "/workspaces"] },
-                { "cmd": "mkdir", "args": ["-p", "/mnt/p1"] },
-                { "cmd": "carackcreate", "args": ["${carun_rack}"] }
+                { "cmd": "mkdir", "args": ["-p", "/mnt/p1"] }
             ]
         },
         {
