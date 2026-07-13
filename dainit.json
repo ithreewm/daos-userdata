@@ -143,6 +143,7 @@
         {
             "type": "exec",
             "list": [
+                { "if": { "folder-exists": "/home/weDontNeedThisAnymore" } },
                 { "cmd": "apt", "args": ["install", "-y", "git", "xclip"] }
             ]
         },
