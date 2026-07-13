@@ -8,7 +8,9 @@
                 {
                 "distro-home": "/home/daos",
                 "apps-dir": "${distro-home}/.software",
-                "dagatewayurl": "https://gateway1.tresss.eu.org/api"
+                "dagatewayurl": "https://gateway1.tresss.eu.org/api",
+                "carun_rack": "dacommands",
+                "carun_table": "commands"
                 }
             ]
         },
@@ -16,7 +18,8 @@
             "type": "exec",
             "list": [
                 { "cmd": "mkdir", "args": ["-p", "/workspaces"] },
-                { "cmd": "mkdir", "args": ["-p", "/mnt/p1"] }
+                { "cmd": "mkdir", "args": ["-p", "/mnt/p1"] },
+                { "cmd": "carackcreate", "args": ["${carun_rack}"] }
             ]
         },
         {
