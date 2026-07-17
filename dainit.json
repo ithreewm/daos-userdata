@@ -126,12 +126,19 @@
         {
             "type": "exec",
             "list": [
-                { "if": { "file-not-exists": "/home/daos/.software/firefox/firefox" } },
-                { "cmd": "rm", "args": ["-rf", "/home/daos/.software/firefox", "/tmp/firefox"] },
-                { "cmd": "mkdir", "args": ["-p", "/home/daos/.software/firefox", "/tmp/firefox"] },
+                { "if": { "file-not-exists": "/home/daos/.software/firefox128/firefox" } },
+                { "cmd": "rm", "args": ["-rf", "/home/daos/.software/firefox128", "/tmp/firefox"] },
+                { "cmd": "mkdir", "args": ["-p", "/home/daos/.software/firefox128", "/tmp/firefox"] },
                 { "cmd": "curl", "args": ["-fL", "-o", "/tmp/firefox/firefox128.tar.xz", "https://www.dropbox.com/scl/fi/mwic29zlagvmlgzxjlgt0/firefox128.tar.xz?rlkey=hbcmrcmera8474kj2zu8pdzbg&st=gtwrak6w&dl=1"] },
                 {"if": { "file-exists": "/tmp/firefox/firefox128.tar.xz" }},
-                { "cmd": "tar", "args": ["-xJf", "/tmp/firefox/firefox128.tar.xz", "-C", "/home/daos/.software/firefox", "--strip-components=1"] }
+                { "cmd": "tar", "args": ["-xJf", "/tmp/firefox/firefox128.tar.xz", "-C", "/home/daos/.software/firefox128", "--strip-components=1"] }
+            ]
+        },
+        {
+            "type": "exec",
+            "list": [
+                { "if": { "file-exists": "/home/daos/.software/firefox128/firefox" } },
+                { "cmd": "ln", "args": ["-sf", "firefox128", "/home/daos/.software/firefox"] }
             ]
         },
         {
